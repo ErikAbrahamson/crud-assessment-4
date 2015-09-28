@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html ng-app="crudApp">
+<head>
+  <title>CRUD Assessment 3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="mainController">
+
+  <div class="container">
+
+    <my-title></my-title>
+
+    <div id="project-form" class="row">
+
+      <form name="projectForm">
+        <div class="form-group">
+          <label for="maker">Maker</label>
+          <input ng-model="formData.maker" name="maker" id="maker" type="text" class="form-control" placeholder="Maker" required>
+        </div>
+
+        <div class="form-group">
+          <label for="model">Model</label>
+          <input ng-model="formData.model" name="model" id="model" type="text" class="form-control" placeholder="Model" required>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input ng-model="formData.year" name="year" id="year" type="text" class="form-control" placeholder="Year" required>
+        </div>
+
+        <div class="form-group">
+          <label for="engine">Engine Details</label>
+          <input ng-model="formData.engine.displacement" name="displacement" id="displacement" type="text" class="form-control col-md-4" placeholder="Displacement" required>
+          <input ng-model="formData.engine.horsepower" name="horsepower" id="horsepower" type="text" class="col-xs-4 form-control" placeholder="Horsepower" required>
+          <input ng-model="formData.engine.cylinders" name="cylinders" id="cylinders" type="number" class="col-xs-4 form-control" placeholder="Number of Cylinders" required>
+        </div>
+
+        <div class="form-group">
+          <label for="previous_owners">Previous Owners</label>
+          <input ng-model="formData.previous_owners" name="group-members" id="previous-owners" type="number" class="form-control" placeholder="Number of Previous Owners" required>
+        </div>
+
+        <div class="form-group">
+          <input ng-model="formData.new" name="new" id="new" type="radio" placeholder="Is this a new car?" required>&nbsp;Car is new?
+        </div>
+
+        <button ng-click="createProject()" class="btn btn-primary">Submit</button>
+      </form>
+
+    </div>
+    <hr><br>
+
+    <div class="row" id="project-list">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Maker</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Group</th>
+            <th>Group Members</th>
+            <th>Modify</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="projectPost" ng-repeat="project in projects">
+            <td>{{ project.name }}</td>
+            <td>{{ project.model }}</td>
+            <td>
+              <span ng-repeat="year in project.year">
+                {{ year }}
+              </span>
+            </td>
+            <td>{{ project.group }}</td>
+            <td>
+              <span ng-repeat="members in project.previous_owners">
+                {{ members }}
+              </span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Edit</button>
+
+              &nbsp;
+
+              <button ng-click="deleteProject(project._id)" class="btn btn-xs btn-danger">Delete</button>
+
+              <edit-modal/>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="/api/v1/projects">
+        <button class="btn btn-xs btn-info">View API</button>
+      </a>
+
+    </div>
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script type="text/javascript" src="js/lib/ui.bootstrap.modal.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/controller.js"></script>
+  <script type="text/javascript" src="js/filters.js"></script>
+  <script type="text/javascript" src="js/directives.js"></script>
+</body>
+</html>
