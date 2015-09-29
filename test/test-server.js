@@ -5,67 +5,75 @@ var chai = require('chai'),
   server = require('../server/app'),
   should = chai.should(),
   mongoose = require('mongoose');
-  Project = require('../server/models/project');
+  Vehicle = require('../server/models/vehicle');
 
 chai.use(chaiHttp);
 
-describe('Projects', function() {
+describe('Vehicles', function() {
 
   beforeEach(function(done) {
-    var dummyProject = new Project({
-      name: 'Testing with Mocha and Chai',
-      description: 'Dummy description',
-      tags: ['Mocha','Chai','Node.js'],
-      group: 'Five',
-      group_members: ['Jim', 'Bob']
+    var dummyVehicle = new Vehicle({
+      maker: 'Audi',
+      model: 'S4',
+      year: '2001',
+      engine: {
+        displacement: '2.7',
+        horsepower: 480,
+        cylinders: 6
+      },
+      previous_owners: 4,
+      new: false
     });
-    dummyProject.save(function(err) {
+    dummyVehicle.save(function(err) {
       done();
     });
   });
 
   afterEach(function(done) {
-    Project.collection.drop();
+    Vehicle.collection.drop();
     done();
   });
   // GET all
-  it('should list ALL projects on /api/v1/projects GET', function(done) {
+  it('should list ALL vehicles on /api/v1/vehicles GET', function(done) {
     chai.request(server)
-      .get('/api/v1/projects')
+      .get('/api/v1/vehicles')
       .end(function(err, res){
         res.should.have.status(200);
         res.should.be.json;
         res.body[0].should.have.property('_id');
-        res.body[0].should.have.property('name');
-        res.body[0].should.have.property('description');
-        res.body[0].should.have.property('tags');
-        res.body[0].should.have.property('group');
-        res.body[0].name.should.equal('Testing with Mocha and Chai');
-        res.body[0].tags[0].should.equal('Mocha');
-        res.body[0].tags[1].should.equal('Chai');
+        res.body[0].should.have.property('maker');
+        res.body[0].should.have.property('model');
+        res.body[0].should.have.property('year');
+        res.body[0].should.have.property('engine');
+        res.body[0].maker.should.equal('Audi');
         done();
       });
     });
   // GET single
-  it('should get a single exercise on /api/v1/projects GET', function(done) {
-    var testProject = new Project({
-      name: 'Mocha Test',
-      description: 'Mocha Description',
-      tags: ['tag','another tag'],
-      group: 'One',
-      group_members: ['Jim', 'Bob']
+  it('should get a single exercise on /api/v1/vehicles GET', function(done) {
+    var testVehicle = new Vehicle({
+      maker: 'BMW',
+      model: 'M3',
+      year: '2004',
+      engine: {
+        displacement: '3.2',
+        horsepower: 320,
+        cylinders: 6
+      },
+      previous_owners: 1,
+      new: false
     });
-    testProject.save(function(err, data) {
+    testVehicle.save(function(err, data) {
       chai.request(server)
-        .get('/api/v1/projects/' + data.id)
+        .get('/api/v1/vehicles/' + data.id)
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.have.property('_id');
-          res.body.should.have.property('name');
-          res.body.should.have.property('description');
-          res.body.should.have.property('group');
-          res.body.should.have.property('tags');
+          res.body.should.have.property('maker');
+          res.body.should.have.property('model');
+          res.body.should.have.property('year');
+          res.body.should.have.property('engine');
           res.body._id.should.equal(data.id);
           done();
         });
@@ -74,14 +82,14 @@ describe('Projects', function() {
   // PUT single
   it('should update a single exercise', function(done) {
     chai.request(server)
-      .get('/api/v1/projects/')
+      .get('/api/v1/vehicles/')
       .end(function(err, res) {
         chai.request(server)
-          .put('/api/v1/projects/' + res.body[0]._id)
-          .send({'name': 'I\'ve been changed!'})
+          .put('/api/v1/vehicles/' + res.body[0]._id)
+          .send({'maker': 'I\'ve been changed!'})
           .end(function(err, res) {
             res.should.have.status(200);
-            res.body.name.should.equal('I\'ve been changed!');
+            res.body.maker.should.equal('I\'ve been changed!');
             done();
           });
       });
@@ -89,10 +97,10 @@ describe('Projects', function() {
   // Delete single
   it('should delete a single exercise', function(done){
     chai.request(server)
-      .get('/api/v1/projects/')
+      .get('/api/v1/vehicles/')
       .end(function(err, res) {
         chai.request(server)
-          .delete('/api/v1/projects/' + res.body[0]._id)
+          .delete('/api/v1/vehicles/' + res.body[0]._id)
           .end(function(err, res) {
             res.should.have.status(200);
             res.should.be.json;

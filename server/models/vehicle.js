@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     year: String,
     engine: {
       displacement: String,
-      horsepower: String,
+      horsepower: Number,
       cylinders: Number
     },
     previous_owners: Number,
