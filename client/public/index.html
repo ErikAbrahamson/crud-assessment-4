@@ -14,9 +14,9 @@
 
     <my-title></my-title>
 
-    <div id="project-form" class="row">
+    <div id="vehicle-form" class="row">
 
-      <form name="projectForm">
+      <form name="vehicleForm">
         <div class="form-group">
           <label for="maker">Maker</label>
           <input ng-model="formData.maker" name="maker" id="maker" type="text" class="form-control" placeholder="Maker" required>
@@ -48,45 +48,38 @@
           <input ng-model="formData.new" name="new" id="new" type="radio" placeholder="Is this a new car?" required>&nbsp;Car is new?
         </div>
 
-        <button ng-click="createProject()" class="btn btn-primary">Submit</button>
+        <button ng-click="createVehicle()" class="btn btn-primary">Submit</button>
       </form>
 
     </div>
     <hr><br>
 
-    <div class="row" id="project-list">
+    <div class="row" id="vehicle-list">
       <table class="table table-striped">
         <thead>
           <tr>
             <th>Maker</th>
             <th>Model</th>
             <th>Year</th>
-            <th>Group</th>
-            <th>Group Members</th>
-            <th>Modify</th>
+            <th>Displacement</th>
+            <th>HP</th>
+            <th>Previous Owners</th>
           </tr>
         </thead>
         <tbody>
-          <tr id="projectPost" ng-repeat="project in projects">
-            <td>{{ project.name }}</td>
-            <td>{{ project.model }}</td>
-            <td>
-              <span ng-repeat="year in project.year">
-                {{ year }}
-              </span>
-            </td>
-            <td>{{ project.group }}</td>
-            <td>
-              <span ng-repeat="members in project.previous_owners">
-                {{ members }}
-              </span>
-            </td>
+          <tr id="vehiclePost" ng-repeat="vehicle in vehicles">
+            <td>{{ vehicle.maker }}</td>
+            <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.year }}</td>
+            <td>{{ vehicle.engine.displacement }}</td>
+            <td>{{ vehicle.engine.horsepower }}</td>
+            <td>{{ vehicle.previous_owners }}</td>
             <td>
               <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Edit</button>
 
               &nbsp;
 
-              <button ng-click="deleteProject(project._id)" class="btn btn-xs btn-danger">Delete</button>
+              <button ng-click="deleteVehicle(vehicle._id)" class="btn btn-xs btn-danger">Delete</button>
 
               <edit-modal/>
 
@@ -94,7 +87,7 @@
           </tr>
         </tbody>
       </table>
-      <a href="/api/v1/projects">
+      <a href="/api/v1/vehicles">
         <button class="btn btn-xs btn-info">View API</button>
       </a>
 

@@ -17,7 +17,7 @@ crudApp.controller('mainController', function($scope, $http) {
       console.log('Error: ' + error);
     });
 
-  $scope.createProject = function() {
+  $scope.createVehicle = function() {
     $http.post('/api/v1/vehicles/', $scope.formData)
       .success(function(data) {
         $scope.formData = {}; // clears the form every entry
@@ -29,7 +29,7 @@ crudApp.controller('mainController', function($scope, $http) {
       });
   };
 
-  $scope.deleteProject = function(id) {
+  $scope.deleteVehicle = function(id) {
     $http.delete('/api/v1/vehicles/' + id)
       .success(function(data) {
         $scope.vehicles.splice(data, 1);
@@ -40,7 +40,7 @@ crudApp.controller('mainController', function($scope, $http) {
       });
   };
 
-    $scope.editProject = function(id) {
+    $scope.editVehicle = function(id) {
     $http.put('/api/v1/vehicles/' + id, $scope.modalData)
       .success(function(data) {
         data = $scope.modalData;
