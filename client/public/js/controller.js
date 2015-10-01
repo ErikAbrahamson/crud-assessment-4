@@ -44,6 +44,8 @@ crudApp.controller('mainController', function($scope, $http) {
     $http.put('/api/v1/vehicles/' + id, $scope.modalData)
       .success(function(data) {
         data = $scope.modalData;
+        console.log(data)
+        // $route.reload()
         $scope.$apply();
       })
       .error(function(error) {
