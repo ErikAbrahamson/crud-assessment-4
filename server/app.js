@@ -12,12 +12,14 @@ var config = require('./_config.js');
 var passport = require('passport');
 var app = express();
 require('./models/vehicle.js');
+require('./models/user.js');
 
 // *** connect to MongoDB through Mongoose *** //
 mongoose.connect(config.mongoURI[app.settings.env]);
 
 // *** routes *** //
 var api = require('./routes/api.js');
+var user = require('./routes/users.js');
 
 // *** view engine *** //
 var swig = new swig.Swig();
@@ -39,6 +41,7 @@ app.use(passport.session());
 
 // *** main routes *** //
 app.use('/api/v1/', api);
+app.use('/user/', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
